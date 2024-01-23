@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5BD0EA122B5FF10E007E39C5 /* ViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD0EA112B5FF10E007E39C5 /* ViewControllerObjc.m */; };
+		5BD0EA162B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD0EA152B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift */; };
 		D96F96091FFB2E1E0075F3DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F96081FFB2E1E0075F3DB /* AppDelegate.swift */; };
 		D96F960B1FFB2E1E0075F3DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F960A1FFB2E1E0075F3DB /* ViewController.swift */; };
 		D96F960E1FFB2E1E0075F3DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D96F960C1FFB2E1E0075F3DB /* Main.storyboard */; };
@@ -41,6 +43,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5BD0EA0F2B5FF10E007E39C5 /* ZHWaveform_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHWaveform_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		5BD0EA112B5FF10E007E39C5 /* ViewControllerObjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControllerObjc.m; sourceTree = "<group>"; };
+		5BD0EA152B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmediatePanGestureRecognizer.swift; sourceTree = "<group>"; };
+		5BD0EA172B602511007E39C5 /* ViewControllerObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerObjc.h; sourceTree = "<group>"; };
 		D96F96051FFB2E1E0075F3DB /* ZHWaveform_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZHWaveform_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D96F96081FFB2E1E0075F3DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D96F960A1FFB2E1E0075F3DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +124,9 @@
 				D96F960F1FFB2E1E0075F3DB /* Assets.xcassets */,
 				D96F96111FFB2E1E0075F3DB /* LaunchScreen.storyboard */,
 				D96F96141FFB2E1E0075F3DB /* Info.plist */,
+				5BD0EA172B602511007E39C5 /* ViewControllerObjc.h */,
+				5BD0EA112B5FF10E007E39C5 /* ViewControllerObjc.m */,
+				5BD0EA0F2B5FF10E007E39C5 /* ZHWaveform_Example-Bridging-Header.h */,
 			);
 			path = ZHWaveform_Example;
 			sourceTree = "<group>";
@@ -148,6 +157,7 @@
 				D96F96481FFB6D160075F3DB /* ZHWaveformView.swift */,
 				D96F96461FFB6D160075F3DB /* ZHWaveformViewDelegate.swift */,
 				D96F96491FFB6D160075F3DB /* ZHCroppedDelegate.swift */,
+				5BD0EA152B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift */,
 			);
 			path = ZHWaveform;
 			sourceTree = "<group>";
@@ -220,6 +230,7 @@
 				TargetAttributes = {
 					D96F96041FFB2E1E0075F3DB = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1500;
 						ProvisioningStyle = Manual;
 					};
 					D96F96181FFB2E1E0075F3DB = {
@@ -292,7 +303,9 @@
 				D96F960B1FFB2E1E0075F3DB /* ViewController.swift in Sources */,
 				D96F964B1FFB6D160075F3DB /* ZHWaveformViewDelegate.swift in Sources */,
 				D96F964D1FFB6D160075F3DB /* ZHWaveformView.swift in Sources */,
+				5BD0EA122B5FF10E007E39C5 /* ViewControllerObjc.m in Sources */,
 				D96F964E1FFB6D160075F3DB /* ZHCroppedDelegate.swift in Sources */,
+				5BD0EA162B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift in Sources */,
 				D96F964A1FFB6D160075F3DB /* ZHAudioProcessing.swift in Sources */,
 				D96F96091FFB2E1E0075F3DB /* AppDelegate.swift in Sources */,
 			);
@@ -460,6 +473,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ZHWaveform_Example/Info.plist;
@@ -467,6 +481,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ZZH.ZHWaveform-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZHWaveform_Example/ZHWaveform_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -476,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ZHWaveform_Example/Info.plist;
@@ -483,6 +500,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ZZH.ZHWaveform-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ZHWaveform_Example/ZHWaveform_Example-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
