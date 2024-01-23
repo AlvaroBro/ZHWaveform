@@ -125,8 +125,8 @@ import AVFoundation
                 width: trackWidth,
                 height: rect.height
             )
-            layer.lineCap = kCALineCapButt
-            layer.lineJoin = kCALineJoinRound
+            layer.lineCap = CAShapeLayerLineCap.butt
+            layer.lineJoin = CAShapeLayerLineJoin.round
             layer.lineWidth = trackWidth
             layer.strokeColor = wavesColor.cgColor
             self.layer.addSublayer(layer)
