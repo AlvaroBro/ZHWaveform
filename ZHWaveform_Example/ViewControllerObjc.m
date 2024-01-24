@@ -10,7 +10,7 @@
 #import "ViewControllerObjc.h"
 
 const BOOL showLeftControl = YES;
-const BOOL showRightControl = NO;
+const BOOL showRightControl = YES;
 
 @interface ViewControllerObjc () <ZHCroppedDelegate, ZHWaveformViewDelegate>
 
@@ -32,7 +32,8 @@ const BOOL showRightControl = NO;
     
     self.waveform = [[ZHWaveformView alloc] initWithFrame:CGRectMake(20, 200, self.view.frame.size.width - 40, 44) fileURL:fileURL];
     
-    self.waveform.beginningPartColor = [UIColor darkGrayColor];
+    self.waveform.beginningPartColor = [UIColor blackColor];
+    self.waveform.endPartColor = [UIColor blackColor];
     self.waveform.wavesColor = [UIColor lightGrayColor];
     self.waveform.trackScale = 0.4;
     

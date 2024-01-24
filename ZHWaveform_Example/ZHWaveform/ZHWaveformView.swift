@@ -174,7 +174,7 @@ extension ZHWaveformView {
     private func creatCroppedView() {
         if let leftCropped = croppedDelegate?.waveformView(startCropped: self) {
             leftCropped.frame = CGRect(x: 0, y: bounds.height/2 - leftCropped.frame.size.height/2, width: leftCropped.bounds.width, height: leftCropped.bounds.height)
-            leftCroppedCurrentX = 0
+            leftCroppedCurrentX = leftCropped.center.x
             let leftPanRecognizer = ImmediatePanGestureRecognizer(target: self, action: #selector(self.leftCroppedPanRecognizer(sender:)))
             leftCropped.addGestureRecognizer(leftPanRecognizer)
             leftCropped.isUserInteractionEnabled = true
@@ -183,7 +183,7 @@ extension ZHWaveformView {
         
         if let rightCropped = croppedDelegate?.waveformView(endCropped: self) {
             rightCropped.frame = CGRect(x: bounds.width - rightCropped.bounds.width, y: bounds.height/2 - rightCropped.frame.size.height/2, width: rightCropped.bounds.width, height: rightCropped.bounds.height)
-            rightCroppedCurrentX = bounds.width - rightCropped.bounds.width
+            rightCroppedCurrentX = rightCropped.center.x
             let rightPanRecognizer = ImmediatePanGestureRecognizer(target: self, action: #selector(self.rightCroppedPanRecognizer(sender:)))
             rightCropped.addGestureRecognizer(rightPanRecognizer)
             rightCropped.isUserInteractionEnabled = true
@@ -222,7 +222,7 @@ extension ZHWaveformView {
         startCroppedIndex = Int(bzrLenght) > trackLayer.count ? trackLayer.count : Int(bzrLenght)
         self.croppedWaveform(start: startCroppedIndex, end: endCroppedIndex)
         let bezierWidth = self.frame.width - (startCroppedView?.frame.width ?? 0) - (endCroppedView?.frame.width ?? 0)
-        croppedDelegate?.waveformView(startCropped: startCroppedView ?? UIView(), progress: ((startCroppedView?.frame.maxX ?? 0) - (startCroppedView?.bounds.width ?? 0))/bezierWidth)
+        croppedDelegate?.waveformView(startCropped: startCroppedView ?? UIView(), progress: ((startCroppedView?.frame.maxX ?? 0) - (startCroppedView?.frame.width ?? 0))/bezierWidth)
     }
     
     @objc private func rightCroppedPanRecognizer(sender: UIPanGestureRecognizer) {
@@ -251,12 +251,12 @@ extension ZHWaveformView {
             rightFrame?.origin.x = limitMaxX - (endCroppedView?.frame.width ?? 0)
             endCroppedView?.frame = rightFrame ?? .zero
         }
-        let lenght = ceilf(Float(((endCroppedView?.frame.minX ?? 0) - (endCroppedView?.bounds.width ?? 0)) / trackWidth))
+        let lenght = ceilf(Float(((endCroppedView?.frame.minX ?? 0) - (startCroppedView?.bounds.width ?? 0)) / trackWidth))
         let bzrLenght = floorf(lenght/2) < 0 ? 0 : ceilf(lenght/2)
         endCroppedIndex = Int(bzrLenght)
         self.croppedWaveform(start: startCroppedIndex, end: endCroppedIndex)
-        let bezierWidth = self.frame.width - (endCroppedView?.frame.width ?? 0)
-        croppedDelegate?.waveformView(endCropped: endCroppedView ?? UIView(), progress: ((endCroppedView?.frame.minX ?? 0))/bezierWidth)
+        let bezierWidth = self.frame.width - (startCroppedView?.frame.width ?? 0) - (endCroppedView?.frame.width ?? 0)
+        croppedDelegate?.waveformView(endCropped: endCroppedView ?? UIView(), progress: ((endCroppedView?.frame.minX ?? 0) - (startCroppedView?.frame.width ?? 0))/bezierWidth)
     }
     
     typealias TrackIndex = Int
