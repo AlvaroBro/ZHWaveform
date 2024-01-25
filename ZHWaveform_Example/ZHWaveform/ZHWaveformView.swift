@@ -259,11 +259,25 @@ extension ZHWaveformView {
         croppedDelegate?.waveformView(endCropped: endCroppedView ?? UIView(), progress: ((endCroppedView?.frame.minX ?? 0) - (startCroppedView?.frame.width ?? 0))/bezierWidth)
     }
     
-    typealias TrackIndex = Int
+    @objc public func setStartCroppedIndex(index: Float) {
+        guard index >= 0 && index <= 1 else { return }
+        let startIndex = Int(index * Float(trackLayer.count))
+        guard startIndex <= endCroppedIndex else {return }
+        startCroppedIndex = startIndex
+        self.croppedWaveform(start: startCroppedIndex, end: endCroppedIndex)
+    }
+    
+    @objc public func setEndCroppedIndex(index: Float) {
+        guard index >= 0 && index <= 1 else { return }
+        let endIndex = Int(index * Float(trackLayer.count))
+        guard endIndex >= startCroppedIndex else {return }
+        endCroppedIndex = endIndex
+        self.croppedWaveform(start: startCroppedIndex, end: endCroppedIndex)
+    }
     
     func croppedWaveform(
-        start: TrackIndex,
-        end: TrackIndex
+        start: Int,
+        end: Int
         ) {
         let beginLayers = trackLayer[0..<start]
         let wavesLayers = trackLayer[start..<end]

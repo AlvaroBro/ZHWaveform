@@ -1,5 +1,5 @@
 //
-//  ViewControllerObjc.m
+//  ViewController2.m
 //  ZHWaveform_Example
 //
 //  Created by Alvaro Marcos on 23/1/24.
@@ -7,18 +7,18 @@
 //
 
 #import <ZHWaveform_Example-Swift.h>
-#import "ViewControllerObjc.h"
+#import "ViewController2.h"
 
 const BOOL showLeftControl = YES;
 const BOOL showRightControl = YES;
 
-@interface ViewControllerObjc () <ZHCroppedDelegate, ZHWaveformViewDelegate>
+@interface ViewController2 () <ZHCroppedDelegate, ZHWaveformViewDelegate>
 
 @property (strong, nonatomic) ZHWaveformView *waveform;
 
 @end
 
-@implementation ViewControllerObjc
+@implementation ViewController2
 
 - (void)loadView {
     [super loadView];

@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5BD0EA122B5FF10E007E39C5 /* ViewControllerObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD0EA112B5FF10E007E39C5 /* ViewControllerObjc.m */; };
+		384AC3CA2B61D22400CDFB5E /* ViewController3.m in Sources */ = {isa = PBXBuildFile; fileRef = 384AC3C92B61D22400CDFB5E /* ViewController3.m */; };
+		5BD0EA122B5FF10E007E39C5 /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD0EA112B5FF10E007E39C5 /* ViewController2.m */; };
 		5BD0EA162B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD0EA152B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift */; };
 		D96F96091FFB2E1E0075F3DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F96081FFB2E1E0075F3DB /* AppDelegate.swift */; };
 		D96F960B1FFB2E1E0075F3DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96F960A1FFB2E1E0075F3DB /* ViewController.swift */; };
@@ -43,10 +44,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		384AC3C82B61D22400CDFB5E /* ViewController3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController3.h; sourceTree = "<group>"; };
+		384AC3C92B61D22400CDFB5E /* ViewController3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController3.m; sourceTree = "<group>"; };
 		5BD0EA0F2B5FF10E007E39C5 /* ZHWaveform_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHWaveform_Example-Bridging-Header.h"; sourceTree = "<group>"; };
-		5BD0EA112B5FF10E007E39C5 /* ViewControllerObjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControllerObjc.m; sourceTree = "<group>"; };
+		5BD0EA112B5FF10E007E39C5 /* ViewController2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController2.m; sourceTree = "<group>"; };
 		5BD0EA152B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmediatePanGestureRecognizer.swift; sourceTree = "<group>"; };
-		5BD0EA172B602511007E39C5 /* ViewControllerObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerObjc.h; sourceTree = "<group>"; };
+		5BD0EA172B602511007E39C5 /* ViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController2.h; sourceTree = "<group>"; };
 		D96F96051FFB2E1E0075F3DB /* ZHWaveform_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZHWaveform_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D96F96081FFB2E1E0075F3DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D96F960A1FFB2E1E0075F3DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -124,8 +127,10 @@
 				D96F960F1FFB2E1E0075F3DB /* Assets.xcassets */,
 				D96F96111FFB2E1E0075F3DB /* LaunchScreen.storyboard */,
 				D96F96141FFB2E1E0075F3DB /* Info.plist */,
-				5BD0EA172B602511007E39C5 /* ViewControllerObjc.h */,
-				5BD0EA112B5FF10E007E39C5 /* ViewControllerObjc.m */,
+				5BD0EA172B602511007E39C5 /* ViewController2.h */,
+				5BD0EA112B5FF10E007E39C5 /* ViewController2.m */,
+				384AC3C82B61D22400CDFB5E /* ViewController3.h */,
+				384AC3C92B61D22400CDFB5E /* ViewController3.m */,
 				5BD0EA0F2B5FF10E007E39C5 /* ZHWaveform_Example-Bridging-Header.h */,
 			);
 			path = ZHWaveform_Example;
@@ -303,11 +308,12 @@
 				D96F960B1FFB2E1E0075F3DB /* ViewController.swift in Sources */,
 				D96F964B1FFB6D160075F3DB /* ZHWaveformViewDelegate.swift in Sources */,
 				D96F964D1FFB6D160075F3DB /* ZHWaveformView.swift in Sources */,
-				5BD0EA122B5FF10E007E39C5 /* ViewControllerObjc.m in Sources */,
+				5BD0EA122B5FF10E007E39C5 /* ViewController2.m in Sources */,
 				D96F964E1FFB6D160075F3DB /* ZHCroppedDelegate.swift in Sources */,
 				5BD0EA162B6007F1007E39C5 /* ImmediatePanGestureRecognizer.swift in Sources */,
 				D96F964A1FFB6D160075F3DB /* ZHAudioProcessing.swift in Sources */,
 				D96F96091FFB2E1E0075F3DB /* AppDelegate.swift in Sources */,
+				384AC3CA2B61D22400CDFB5E /* ViewController3.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
