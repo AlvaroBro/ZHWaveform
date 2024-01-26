@@ -28,7 +28,8 @@
     NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
     NSURL *fileURL = [thisBundle URLForResource:@"Apart" withExtension:@"mp3"];
     
-    self.waveform = [[ZHWaveformView alloc] initWithFrame:CGRectMake(20, 200, self.view.frame.size.width - 40, 44) fileURL:fileURL];
+    self.waveform = [[ZHWaveformView alloc] init];
+    [self.waveform configureWithFrame:CGRectMake(20, 200, self.view.frame.size.width - 40, 44) fileURL:fileURL];
     
     self.waveform.beginningPartColor = [UIColor systemBlueColor];
     self.waveform.wavesColor = [UIColor lightGrayColor];

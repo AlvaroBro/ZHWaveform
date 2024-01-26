@@ -51,7 +51,7 @@ import AVFoundation
     
     @objc public weak var waveformDelegate: ZHWaveformViewDelegate?
     
-    private var fileURL: URL
+    private var fileURL: URL?
     
     private var asset: AVAsset?
     
@@ -77,26 +77,49 @@ import AVFoundation
     
     private var assetMutableData: NSMutableData?
     
-    @objc public init(frame: CGRect, fileURL: URL) {
-        self.fileURL = fileURL
+    override init(frame: CGRect) {
+        self.fileURL = nil
         super.init(frame: frame)
-        waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
+    }
+    
+    @objc public init(frame: CGRect, fileURL: URL) {
+        super.init(frame: frame)
         configure(frame: frame, fileURL: fileURL)
     }
 
     @objc public func configure(frame: CGRect, fileURL: URL) {
-        backgroundColor = .white
+        waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
+        self.fileURL = fileURL
+        self.frame = frame
         asset = AVAsset(url: fileURL)
         track = asset?.tracks(withMediaType: .audio).first
         
         ZHAudioProcessing.bufferRef(asset: asset!, track: track!, success: { [unowned self] (data) in
             self.assetMutableData = data
-            self.trackProcessingCut = ZHTrackProcessing.cutAudioData(size: frame.size, recorder: data, scale: self.trackScale)
-            self.drawTrack(with: CGRect(origin: .zero, size: frame.size), filerSamples: self.trackProcessingCut ?? [])
-            self.waveformDelegate?.waveformViewDrawComplete?(waveformView: self)
+            if (frame != .zero) {
+                self.trackProcessingCut = ZHTrackProcessing.cutAudioData(size: frame.size, recorder: data, scale: self.trackScale)
+                self.drawTrack(with: CGRect(origin: .zero, size: frame.size), filerSamples: self.trackProcessingCut ?? [])
+                self.waveformDelegate?.waveformViewDrawComplete?(waveformView: self)
+            }
         }) { (error) in
             assert(true, error?.localizedDescription ?? "Error, AudioProcessing.bufferRef")
         }
+    }
+    
+    @objc public func resetView() {
+        asset = nil
+        track = nil
+        trackLayer.forEach { $0.removeFromSuperlayer() }
+        trackLayer.removeAll()
+        startCroppedView?.removeFromSuperview()
+        endCroppedView?.removeFromSuperview()
+        assetMutableData = nil
+        trackProcessingCut = nil
+        leftCroppedCurrentX = 0
+        rightCroppedCurrentX = 0
+        startCroppedIndex = 0
+        endCroppedIndex = 0
+        trackWidth = 0
     }
     
     override public func layoutIfNeeded() {
