@@ -42,7 +42,6 @@ struct ZHAudioProcessing {
                 }
             }
             if reader.status == .completed {
-                print("读取结束")
                 success?(data)
             } else {
                 failure?(nil)

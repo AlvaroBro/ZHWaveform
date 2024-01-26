@@ -81,6 +81,10 @@ import AVFoundation
         self.fileURL = fileURL
         super.init(frame: frame)
         waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
+        configure(frame: frame, fileURL: fileURL)
+    }
+
+    @objc public func configure(frame: CGRect, fileURL: URL) {
         backgroundColor = .white
         asset = AVAsset(url: fileURL)
         track = asset?.tracks(withMediaType: .audio).first
