@@ -86,15 +86,19 @@ import AVFoundation
         super.init(frame: frame)
         configure(frame: frame, fileURL: fileURL)
     }
-
+    
     @objc public func configure(frame: CGRect, fileURL: URL) {
-        waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
         self.fileURL = fileURL
-        self.frame = frame
         asset = AVAsset(url: fileURL)
-        track = asset?.tracks(withMediaType: .audio).first
+        configure(frame: frame, asset: asset!)
+    }
+
+    @objc public func configure(frame: CGRect, asset: AVAsset) {
+        waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
+        self.frame = frame
+        track = asset.tracks(withMediaType: .audio).first
         
-        ZHAudioProcessing.bufferRef(asset: asset!, track: track!, success: { [unowned self] (data) in
+        ZHAudioProcessing.bufferRef(asset: asset, track: track!, success: { [unowned self] (data) in
             self.assetMutableData = data
             if (frame != .zero) {
                 self.trackProcessingCut = ZHTrackProcessing.cutAudioData(size: frame.size, recorder: data, scale: self.trackScale)
@@ -162,8 +166,10 @@ import AVFoundation
         
         for i in 0..<filerSamples.count {
             let itemLinePath = UIBezierPath()
-            let y: CGFloat = (rect.height - filerSamples[i]) / 2
-            let height: CGFloat = filerSamples[i] + y
+            var sample: CGFloat = filerSamples[i]
+            sample = sample == 0 ? 1 : sample
+            let y: CGFloat = (rect.height - sample) / 2
+            let height: CGFloat = sample + y
             itemLinePath.move(to: CGPoint(x: 0, y: y))
             itemLinePath.addLine(to: CGPoint(x: 0, y: height))
             itemLinePath.close()
