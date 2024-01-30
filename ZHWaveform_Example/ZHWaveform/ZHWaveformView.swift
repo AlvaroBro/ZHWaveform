@@ -31,9 +31,9 @@ import AVFoundation
     /** Track Scale normal 0.5, max 1*/
     @objc public var trackScale: CGFloat = 0.5 {
         didSet {
-            if let `assetMutableData` = assetMutableData {
+            if let `_assetData` = _assetData {
                 croppedViewZero()
-                trackProcessingCut = ZHTrackProcessing.cutAudioData(size: self.frame.size, recorder: assetMutableData, scale: trackScale)
+                trackProcessingCut = ZHTrackProcessing.cutAudioData(size: self.frame.size, recorder: _assetData, scale: trackScale)
                 drawTrack(
                     with: CGRect(x: (startCroppedView?.bounds.width ?? 0),
                                  y: 0,
@@ -50,12 +50,6 @@ import AVFoundation
     }
     
     @objc public weak var waveformDelegate: ZHWaveformViewDelegate?
-    
-    private var fileURL: URL?
-    
-    private var asset: AVAsset?
-    
-    private var track: AVAssetTrack?
     
     private var trackLayer: [CAShapeLayer] = []
     
@@ -75,10 +69,13 @@ import AVFoundation
     
     private var trackProcessingCut: [CGFloat]?
     
-    private var assetMutableData: NSMutableData?
+    private var _assetData: NSData?
+    
+    @objc var assetData: NSData? {
+        return _assetData
+    }
     
     override init(frame: CGRect) {
-        self.fileURL = nil
         super.init(frame: frame)
     }
     
@@ -88,36 +85,49 @@ import AVFoundation
     }
     
     @objc public func configure(frame: CGRect, fileURL: URL) {
-        self.fileURL = fileURL
-        asset = AVAsset(url: fileURL)
-        configure(frame: frame, asset: asset!)
+        let asset = AVAsset(url: fileURL)
+        configure(frame: frame, asset: asset)
     }
 
     @objc public func configure(frame: CGRect, asset: AVAsset) {
         waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
-        self.frame = frame
-        track = asset.tracks(withMediaType: .audio).first
         
-        ZHAudioProcessing.bufferRef(asset: asset, track: track!, success: { [unowned self] (data) in
-            self.assetMutableData = data
-            if (frame != .zero) {
-                self.trackProcessingCut = ZHTrackProcessing.cutAudioData(size: frame.size, recorder: data, scale: self.trackScale)
-                self.drawTrack(with: CGRect(origin: .zero, size: frame.size), filerSamples: self.trackProcessingCut ?? [])
-                self.waveformDelegate?.waveformViewDrawComplete?(waveformView: self)
-            }
+        ZHAudioProcessing.bufferRef(asset: asset, success: { [unowned self] (data) in
+            _configure(frame: frame, data: data)
+            waveformDelegate?.waveformViewDrawComplete?(waveformView: self)
         }) { (error) in
             assert(true, error?.localizedDescription ?? "Error, AudioProcessing.bufferRef")
+            self.waveformDelegate?.waveformViewDrawFail?(waveformView: self)
+        }
+    }
+    
+    @objc public func configure(frame: CGRect, data: NSData) {
+        waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
+        _configure(frame: frame, data: data)
+        waveformDelegate?.waveformViewDrawComplete?(waveformView: self)
+    }
+
+    @objc public func _configure(frame: CGRect, data: NSData) {
+        if (Thread.isMainThread) {
+            self.frame = frame
+        } else {
+            DispatchQueue.main.sync {
+                self.frame = frame
+            }
+        }
+        self._assetData = data
+        if (frame != .zero) {
+            self.trackProcessingCut = ZHTrackProcessing.cutAudioData(size: frame.size, recorder: data, scale: self.trackScale)
+            self.drawTrack(with: CGRect(origin: .zero, size: frame.size), filerSamples: self.trackProcessingCut ?? [])
         }
     }
     
     @objc public func resetView() {
-        asset = nil
-        track = nil
         trackLayer.forEach { $0.removeFromSuperlayer() }
         trackLayer.removeAll()
         startCroppedView?.removeFromSuperview()
         endCroppedView?.removeFromSuperview()
-        assetMutableData = nil
+        _assetData = nil
         trackProcessingCut = nil
         leftCroppedCurrentX = 0
         rightCroppedCurrentX = 0

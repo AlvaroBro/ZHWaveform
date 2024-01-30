@@ -16,7 +16,6 @@ struct ZHAudioProcessing {
     
     public static func bufferRef(
         asset: AVAsset,
-        track: AVAssetTrack,
         success: BufferRefSuccessHandler?,
         failure: BufferRefFailureHandler?
         ) {
@@ -26,6 +25,7 @@ struct ZHAudioProcessing {
                                    AVLinearPCMIsFloatKey: false,
                                    AVLinearPCMBitDepthKey: 16]
         do {
+            let track = asset.tracks(withMediaType: .audio).first!
             let reader: AVAssetReader = try AVAssetReader(asset: asset)
             let output: AVAssetReaderTrackOutput = AVAssetReaderTrackOutput(track: track, outputSettings: dict)
             reader.add(output)

@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 struct ZHTrackProcessing {
-    public static func cutAudioData(size: CGSize, recorder data: NSMutableData, scale: CGFloat) -> [CGFloat] {
+    public static func cutAudioData(size: CGSize, recorder data: NSData, scale: CGFloat) -> [CGFloat] {
         var filteredSamplesMA: [CGFloat] = []
         let sampleCount = data.length / MemoryLayout<Int>.size
         let binSize = CGFloat(sampleCount) / (size.width * scale)

@@ -16,4 +16,7 @@ import UIKit
     // complete
     @objc optional func waveformViewDrawComplete(waveformView: ZHWaveformView)
     
+    // fail
+    @objc optional func waveformViewDrawFail(waveformView: ZHWaveformView)
+    
 }
