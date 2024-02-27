@@ -25,7 +25,10 @@ struct ZHAudioProcessing {
                                    AVLinearPCMIsFloatKey: false,
                                    AVLinearPCMBitDepthKey: 16]
         do {
-            let track = asset.tracks(withMediaType: .audio).first!
+            guard let track = asset.tracks(withMediaType: .audio).first else {
+                failure?(nil)
+                return
+            }
             let reader: AVAssetReader = try AVAssetReader(asset: asset)
             let output: AVAssetReaderTrackOutput = AVAssetReaderTrackOutput(track: track, outputSettings: dict)
             reader.add(output)

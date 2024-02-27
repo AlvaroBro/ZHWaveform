@@ -27,10 +27,8 @@ struct ZHTrackProcessing {
     }
     
     private static func trackScale(size: CGSize, source: [CGFloat]) -> [CGFloat] {
-        if let max = source.max() {
-            let k = size.height / max
-            return source.map{ $0 * k }
-        }
-        return source
+        let max = source.max() ?? 0
+        let k = max != 0 ? size.height / max : 0
+        return source.map { $0 * k }
     }
 }
