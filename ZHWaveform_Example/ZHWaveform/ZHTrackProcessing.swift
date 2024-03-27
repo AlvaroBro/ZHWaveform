@@ -12,16 +12,25 @@ import AVFoundation
 struct ZHTrackProcessing {
     public static func cutAudioData(size: CGSize, recorder data: NSData, scale: CGFloat) -> [CGFloat] {
         var filteredSamplesMA: [CGFloat] = []
-        let sampleCount = data.length / MemoryLayout<Int>.size
-        let binSize = CGFloat(sampleCount) / (size.width * scale)
+        let sampleCount = data.length / MemoryLayout<Int16>.size
+        let binSize = Int(CGFloat(sampleCount) / (size.width * scale))
         var i = 0
         while i < sampleCount {
-            let rangeData = data.subdata(with: NSRange(location: i, length: 1))
-            let item = rangeData.withUnsafeBytes({ (ptr: UnsafePointer<Int>) -> Int in
-                return ptr.pointee
-            })
-            filteredSamplesMA.append(CGFloat(item))
-            i += Int(binSize)
+            let binEnd = min(i + binSize, sampleCount)
+            var sum: Int = 0
+            var count: Int = 0
+            while i < binEnd {
+                let rangeData = data.subdata(with: NSRange(location: i * MemoryLayout<Int16>.size, length: MemoryLayout<Int16>.size))
+                let item: Int16 = rangeData.withUnsafeBytes { (pointer: UnsafeRawBufferPointer) -> Int16 in
+                    guard let address = pointer.baseAddress else { return 0 }
+                    return address.assumingMemoryBound(to: Int16.self).pointee
+                }
+                sum += Int(item)
+                count += 1
+                i += 1
+            }
+            let average = count > 0 ? CGFloat(sum) / CGFloat(count) : 0
+            filteredSamplesMA.append(average)
         }
         return trackScale(size: size, source: filteredSamplesMA)
     }
