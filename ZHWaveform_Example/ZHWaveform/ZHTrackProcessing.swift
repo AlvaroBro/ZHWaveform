@@ -20,13 +20,16 @@ struct ZHTrackProcessing {
             var sum: Int = 0
             var count: Int = 0
             while i < binEnd {
-                let rangeData = data.subdata(with: NSRange(location: i * MemoryLayout<Int16>.size, length: MemoryLayout<Int16>.size))
-                let item: Int16 = rangeData.withUnsafeBytes { (pointer: UnsafeRawBufferPointer) -> Int16 in
-                    guard let address = pointer.baseAddress else { return 0 }
-                    return address.assumingMemoryBound(to: Int16.self).pointee
+                let byteIndex = i * MemoryLayout<Int16>.size
+                if byteIndex + MemoryLayout<Int16>.size <= data.length {
+                    let rangeData = data.subdata(with: NSRange(location: byteIndex, length: MemoryLayout<Int16>.size))
+                    let item: Int16 = rangeData.withUnsafeBytes { (pointer: UnsafeRawBufferPointer) -> Int16 in
+                        guard let address = pointer.baseAddress else { return 0 }
+                        return address.assumingMemoryBound(to: Int16.self).pointee
+                    }
+                    sum += Int(item)
+                    count += 1
                 }
-                sum += Int(item)
-                count += 1
                 i += 1
             }
             let average = count > 0 ? CGFloat(sum) / CGFloat(count) : 0
