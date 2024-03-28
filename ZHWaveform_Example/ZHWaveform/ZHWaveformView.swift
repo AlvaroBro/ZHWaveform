@@ -67,7 +67,7 @@ import AVFoundation
     
     private var endCroppedIndex: Int = 0
     
-    private var trackProcessingCut: [CGFloat]?
+    @objc var trackProcessingCut: [CGFloat]?
     
     private var _assetData: NSData?
     
@@ -93,7 +93,7 @@ import AVFoundation
         waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
         
         ZHAudioProcessing.bufferRef(asset: asset, success: { [unowned self] (data) in
-            _configure(frame: frame, data: data)
+            _configure(frame: frame, data: data, tracks: [])
             waveformDelegate?.waveformViewDrawComplete?(waveformView: self)
         }) { (error) in
             assert(true, error?.localizedDescription ?? "Error, AudioProcessing.bufferRef")
@@ -101,13 +101,13 @@ import AVFoundation
         }
     }
     
-    @objc public func configure(frame: CGRect, data: NSData) {
+    @objc public func configure(frame: CGRect, data: NSData, tracks: [CGFloat]?) {
         waveformDelegate?.waveformViewStartDrawing?(waveformView: self)
-        _configure(frame: frame, data: data)
+        _configure(frame: frame, data: data, tracks: tracks)
         waveformDelegate?.waveformViewDrawComplete?(waveformView: self)
     }
 
-    @objc public func _configure(frame: CGRect, data: NSData) {
+    func _configure(frame: CGRect, data: NSData, tracks: [CGFloat]?) {
         if (Thread.isMainThread) {
             self.frame = frame
         } else {
@@ -117,7 +117,11 @@ import AVFoundation
         }
         self._assetData = data
         if (frame != .zero) {
-            self.trackProcessingCut = ZHTrackProcessing.cutAudioData(size: frame.size, recorder: data, scale: self.trackScale)
+            if let tracks = tracks, !tracks.isEmpty {
+                self.trackProcessingCut = tracks
+            } else {
+                self.trackProcessingCut = ZHTrackProcessing.cutAudioData(size: frame.size, recorder: data, scale: self.trackScale)
+            }
             self.drawTrack(with: CGRect(origin: .zero, size: frame.size), filerSamples: self.trackProcessingCut ?? [])
         }
     }
