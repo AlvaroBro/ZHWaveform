@@ -322,14 +322,12 @@ extension ZHWaveformView {
         self.croppedWaveform(start: startCroppedIndex, end: endCroppedIndex)
     }
     
-    func croppedWaveform(
-        start: Int,
-        end: Int
-        ) {
+    func croppedWaveform(start: Int, end: Int) {
         let beginLayers = trackLayer[0..<start]
         let wavesLayers = trackLayer[start..<end]
         let endLayers = trackLayer[end..<trackLayer.count]
-        DispatchQueue.main.async {
+
+        let updateColors = {
             _ = beginLayers.map({ [unowned self] in
                 $0.strokeColor = self.beginningPartColor.cgColor
             })
@@ -339,6 +337,12 @@ extension ZHWaveformView {
             _ = endLayers.map({ [unowned self] in
                 $0.strokeColor = self.endPartColor.cgColor
             })
+        }
+        
+        if Thread.isMainThread {
+            updateColors()
+        } else {
+            DispatchQueue.main.async(execute: updateColors)
         }
     }
     
