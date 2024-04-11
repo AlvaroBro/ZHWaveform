@@ -27,20 +27,29 @@ struct ZHTrackProcessing {
                         guard let address = pointer.baseAddress else { return 0 }
                         return address.assumingMemoryBound(to: Int16.self).pointee
                     }
-                    sum += Int(item)
+                    sum += Int(item) * Int(item)
                     count += 1
                 }
                 i += 1
             }
-            let average = count > 0 ? CGFloat(sum) / CGFloat(count) : 0
-            filteredSamplesMA.append(average)
+            let averageEnergy = count > 0 ? sqrt(CGFloat(sum) / CGFloat(count)) : 0
+            filteredSamplesMA.append(averageEnergy)
         }
         return trackScale(size: size, source: filteredSamplesMA)
     }
     
     private static func trackScale(size: CGSize, source: [CGFloat]) -> [CGFloat] {
-        let max = source.max() ?? 0
-        let k = max != 0 ? size.height / max : 0
-        return source.map { $0 * k }
+        let lowerThreshold: CGFloat = 200
+        let upperThreshold: CGFloat = 1000
+        let filteredSamples = source.map { $0 > lowerThreshold ? $0 : 0 }
+        let max = filteredSamples.max() ?? 0
+        let allBelowUpperThreshold = filteredSamples.allSatisfy { $0 < upperThreshold }
+        let k: CGFloat
+        if allBelowUpperThreshold {
+            k = size.height / upperThreshold
+        } else {
+            k = max != 0 ? size.height / max : 0
+        }
+        return filteredSamples.map { $0 * k }
     }
 }
